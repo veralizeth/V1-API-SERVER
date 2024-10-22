@@ -43,7 +43,7 @@ server.get('/data/:repository/:objectID', (req, res) => {
 
     // Checking if the repo and objectID exists
     if(repositories[repository] && repositories[repository][objectID]) {
-        res.status(200).send(repositories[repository][objectID]); 
+        res.status(200).json(repositories[repository][objectID]); 
     } else {
         res.status(404).send({message: 'Object not found'});
     }    

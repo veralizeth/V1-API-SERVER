@@ -41,7 +41,6 @@ describe('data-storage-api-node', () => {
             .set('Content-Type', 'text/plain')
             .set('Accept', 'application/json')
             .expect(201)
-        console.log('Generated OID:', putResult1.body.oid);
         await supertest(server)
             .get(`/data/my-repo/${putResult1.body.oid}`)
             .expect(200)
