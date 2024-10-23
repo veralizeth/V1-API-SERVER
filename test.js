@@ -4,11 +4,6 @@ const supertest = require('supertest')
 const server = require('./server.js')
 
 
-beforeEach(() => {
-    // Reset the repositories object to an empty state
-    repositories = {};
-});
-
 describe('data-storage-api-node', () => {
     test('PUT', async () => {
         const putResult = await supertest(server)
