@@ -4,12 +4,11 @@ const crypto = require('crypto')
 const server = express()
 server.use(express.text())
 
-
 // The tests exercise the server by requiring it as a module,
 // rather than running it in a separate process and listening on a port
 module.exports = server
 
-const repositories = {};
+
 
 function toSha256Hex(content) {
     return crypto.createHash('sha256').update(content).digest('hex');
@@ -19,8 +18,10 @@ server.put('/data/:repository', (req, res) => {
     const repository = req.params.repository;
     const content = req.body;
 
-    // Generate the hash for the content. 
+    // Generate the hash for the content.
     const oid = toSha256Hex(content);
+
+    // This function calculates how many bytes the content takes up when it's encoded as UTF-8. 
     const size = Buffer.byteLength(content, 'utf8');
 
     if (!repositories[repository]) {
@@ -31,7 +32,7 @@ server.put('/data/:repository', (req, res) => {
     // console.log('Stored repositories:', repositories);
 
     res.status(201).json({ oid, size });
-}); 
+});
 
 // Downloading the object
 server.get('/data/:repository/:objectID', (req, res) => {
@@ -43,8 +44,8 @@ server.get('/data/:repository/:objectID', (req, res) => {
         res.status(200).json(repositories[repository][objectID]); 
     } else {
         res.status(404).send({message: 'Object not found'});
-    }    
-}); 
+    }
+});
 
 server.delete('/data/:repository/:objectID', (req, res) => {
     const repository = req.params.repository; 
